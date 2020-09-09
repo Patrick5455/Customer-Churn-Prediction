@@ -1,11 +1,12 @@
+#%%writefile uni_plot.py
 
 import seaborn as sns
 import matplotlib.pyplot as plt
+from seaborn import *
 import os
-import numpy as np
+import numpy as np 
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
-import os
 
 def plot_univariate (data, x=None, y=None, color='r',save=False,
                 title='New Chart', chart_type='hist', xlabel='', ylabel='',

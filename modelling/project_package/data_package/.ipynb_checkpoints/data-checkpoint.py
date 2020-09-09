@@ -1,6 +1,4 @@
 
-#%%writefile data.py
-
 import seaborn as sns
 import matplotlib.pyplot as plt 
 import os
@@ -13,6 +11,8 @@ from sklearn.preprocessing import *
 from sklearn.model_selection import *
 from sklearn.preprocessing import *
 from sklearn.base import *
+from sklearn.preprocessing import StandardScaler, RobustScaler
+
 
 
 class WrangleData():
@@ -28,10 +28,12 @@ class WrangleData():
     
     
     def load_data(self, path="", sep=",", cols_to_drop=[]):
-                
+        
+        import pandas as pd
+        
         self.path = path
         self.cols_to_drop = cols_to_drop 
-        self.sep = sep  
+        self.sep = sep 
             
         try :
             self.data = pd.read_csv(path, sep)
@@ -39,8 +41,9 @@ class WrangleData():
             if len(self.cols_to_drop) > 0:
                 for col in self.cols_to_drop:
                     self.data.drop(col, axis=1, inplace=True)
-                        
-            self._fit() 
+                    
+            self.fit()
+            print("You are now fit to use this object for wrangling")
             
             return self.data 
         
@@ -54,15 +57,12 @@ class WrangleData():
             assert(type(self.data) is pandas.core.frame.DataFrame), "data must be of type pandas.DataFrame"
             
             print("You are now fit to use this object for wrangling")
-                    
+        
         except AttributeError:
             
             print("Hey Buddy you need to load a data first !!! ")
         
 
-    def get_data(self):
-        
-        return self.data
 
     def check_outliers(self, show_plot=False, save_img=os.getcwd()+'/outliers.png'):
  
@@ -164,7 +164,7 @@ class WrangleData():
             self.data = self.data[mask]
 
 
-        return self.data  
+        return self.data 
     
     
     def map_col_values(self, col_name="", values_dict={}):
